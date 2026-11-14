@@ -84,8 +84,14 @@ inicio
         escreval(" ")
         escreval(" Digite uma opção conforme acima: ")
         leia(c)
+        
+        se ((qm = 0) e (c = 1)) ou ((qt = 0) e (c = 2)) ou ((qmp = 0) e (c = 3)) ou ((qmjs = 0) e (c = 4)) ou ((qtjs = 0) e (c = 5)) ou ((qmpjs = 0) e (c = 6)) entao
+            escreval("Opção inválida. Aperte qualquer tecla para tentar novamente.")
+            leia(tecla) 
+            tecla <- "N"
 
-        escolha c
+            senao
+                escolha c
             caso 1
                 qm <- remove_um(qm)
                 qmjs <- adiciona_um(qmjs)
@@ -290,6 +296,9 @@ inicio
                 c <- 7
 
         fimescolha    
+
+
+        fimse
     ate (c = 0)
 
 fimprocedimento
