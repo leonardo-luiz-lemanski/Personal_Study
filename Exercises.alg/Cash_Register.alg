@@ -4,6 +4,16 @@ Var
 
     confirmacao: caractere
 
+funcao parcela_credito(capital, n_parcelas: real): real
+var 
+    montante_parc: real
+
+inicio
+    montante_parc <- (capital + (capital * 0.02 * n_parcelas))/n_parcelas
+    retorne montante_parc
+
+fimfuncao
+
 funcao remove_um(y:inteiro):inteiro
 inicio
     y <- y - 1
@@ -16,13 +26,32 @@ inicio
     retorne x
 fimfuncao
 
-procedimento carrinho(qm, qmjs, qt, qtjs, qmp, qmpjs: real)
+procedimento imprimir_parc(h:real)
 var
-c, qmjs_vt, qtjs_vt, qmpjs_vt, vtc: real
-tecla: caractere
+    i: inteiro
+    n: real
 
 inicio
+    para i <- 1 ate 6 passo 1 faca
+        n <- parcela_credito(h, i)
+        escreval(i , "x de R$" , n:6:2)
+
+    fimpara
+
+fimprocedimento
+
+procedimento carrinho(qm, qmjs, qt, qtjs, qmp, qmpjs: real)
+var
+c, s, qmjs_vt, qtjs_vt, qmpjs_vt, vtc, vtcp, vtcc: real
+tecla: caractere
+numero_de_parcelas, variavel_temp_loop_tosemideiamaisdevariavel: inteiro
+
+inicio
+    variavel_temp_loop_tosemideiamaisdevariavel <- 0
     c <- 7
+    s <- 0
+    vtc <- 0
+    vtcp <- 0
     tecla <- "N"
 
     repita
@@ -41,7 +70,6 @@ inicio
         escreval("============================================")
         escreval("        C   A   R   R   I   N   H   O       ")
         escreval("============================================")
-
         escreval("    Mouse:    " , qmjs , " UN = R$" , qmjs_vt:5:2)
         escreval("    Teclado:  " , qtjs , " UN = R$" , qtjs_vt:5:2)
         escreval("    Mousepad: " , qmpjs , " UN = R$" , qmpjs_vt:5:2)
@@ -94,14 +122,154 @@ inicio
                 tecla <- maiusc(tecla)
 
                     se (tecla = "S") entao
-                        c <- 0
-                        quant_mouse <- qm
-                        quant_mouse_ja_selecionado <- qmjs
-                        quant_teclado <- qt
-                        quant_teclado_ja_selecionado <- qtjs
-                        quant_mousepad <- qmpjs
-                        quant_mousepad_ja_selecionado <- qmpjs
+                        c <- 7
+                        variavel_temp_loop_tosemideiamaisdevariavel <- 0
 
+                        enquanto (variavel_temp_loop_tosemideiamaisdevariavel = 0) faca
+
+                            limpatela
+                            escreval("============================================")
+                            escreval("        C   A   R   R   I   N   H   O       ")
+                            escreval("============================================")
+                            escreval("    Mouse:    " , qmjs , " UN = R$" , qmjs_vt:5:2)
+                            escreval("    Teclado:  " , qtjs , " UN = R$" , qtjs_vt:5:2)
+                            escreval("    Mousepad: " , qmpjs , " UN = R$" , qmpjs_vt:5:2)
+                            escreval("---------------------------------------------")
+                            escreval(" Total de itens: " , qmjs + qtjs + qmpjs , " Valor total: R$" , vtc:6:2)
+                            escreval("=============================================")
+                            escreval(" Meios de pagamentos disponíveis:            ")
+                            vtcp <- vtc*0.97
+                            escreval(" [1] Pix - 3% de desconto - R$", vtcp:6:2)
+                            escreval(" [2] Cartão de débito ou dinheiro - R$" , vtc:6:2 )
+                            escreval(" [3] Cartão de crédito em até 6x com juros")
+                            escreval(" [0] Voltar")
+                            escreval(" ")
+                            escreval(" Digite um número para selecionar o meio de pagamento: ")
+                            leia(s)
+                            escolha s
+                                caso 1
+                                    escreval("Meio de pagamento selecionado foi Pix, cobre do cliente R$" , vtcp:6:2)
+                                    escreval("Confirmar venda? [S/N] ")
+                                    leia(tecla)
+                                    tecla <- maiusc(tecla)
+
+                                    se (tecla = "S") entao
+                                        quant_mouse <- qm
+                                        quant_mouse_ja_selecionado <- 0
+                                        quant_teclado <- qt
+                                        quant_teclado_ja_selecionado <- 0
+                                        quant_mousepad <- qmp
+                                        quant_mousepad_ja_selecionado <- 0
+
+                                        escreval("Venda registrada com sucesso!")
+                                        escreval("Pressione qualquer tecla para voltar ao menu inicial")
+                                        leia(tecla)
+                                        limpatela
+                                        variavel_temp_loop_tosemideiamaisdevariavel <- 1 
+                                        c <- 0          
+
+                                    senao
+                                        se (tecla = "N") entao
+                                        escreval("Meio de pagamento não confirmado.")
+                                        escreval("Pressione qualquer tecla para voltar ao menu de pagamento.")
+                                        leia(tecla)
+
+                                        senao 
+                                            escreval("Opção inválida. Aperte qualquer tecla para tentar novamente.")
+                                            leia(tecla)    
+
+                                        fimse
+                                    fimse
+
+                                caso 2
+                                    escreval("Meio de pagamento selecionado foi cartão de débito ou dinheiro, cobre do cliente R$" , vtc:6:2)
+                                    escreval("Confirmar venda? [S/N] ")
+                                    leia(tecla)
+                                    tecla <- maiusc(tecla)
+
+                                    se (tecla = "S") entao
+                                        quant_mouse <- qm
+                                        quant_mouse_ja_selecionado <- 0
+                                        quant_teclado <- qt
+                                        quant_teclado_ja_selecionado <- 0
+                                        quant_mousepad <- qmp
+                                        quant_mousepad_ja_selecionado <- 0
+
+                                        escreval("Venda registrada com sucesso!")
+                                        escreval("Pressione qualquer tecla para voltar ao menu inicial")
+                                        leia(tecla)
+                                        limpatela
+                                        variavel_temp_loop_tosemideiamaisdevariavel <- 1 
+                                        c <- 0          
+
+                                    senao
+                                        se (tecla = "N") entao
+                                        escreval("Meio de pagamento não confirmado.")
+                                        escreval("Pressione qualquer tecla para voltar ao menu de pagamento.")
+                                        leia(tecla)
+
+                                        senao 
+                                            escreval("Opção inválida. Aperte qualquer tecla para tentar novamente.")
+                                            leia(tecla)    
+
+                                        fimse
+                                    fimse
+
+                                caso 3
+
+                                    escreval("Meio de pagamento selecionado foi cartão de crédito, os parcelamentos são:")
+                                    imprimir_parc(vtc)
+                                    escreval("Em quantas vezes será parcelado?")
+                                    leia(numero_de_parcelas)
+                                    se (numero_de_parcelas <> 1) e (numero_de_parcelas <> 2) e (numero_de_parcelas <> 3) e (numero_de_parcelas <> 4) e (numero_de_parcelas <> 5) e (numero_de_parcelas <> 6) faca
+                                        escreval("Opção inválida. Aperte qualquer tecla para tentar novamente.")
+                                        leia(tecla)    
+
+                                        senao
+                                            vtcc <- numero_de_parcelas*parcela_credito(vtc, numero_de_parcelas)
+                                            escreval("Em ", numero_de_parcelas , "x, cobre do cliente um total de: R$" , vtcc:6:2)
+
+                                            escreval("Confirmar venda? [S/N] ")
+                                            leia(tecla)
+                                            tecla <- maiusc(tecla)
+                                            se (tecla = "S") entao
+                                                quant_mouse <- qm
+                                                quant_mouse_ja_selecionado <- 0
+                                                quant_teclado <- qt
+                                                quant_teclado_ja_selecionado <- 0
+                                                quant_mousepad <- qmp
+                                                quant_mousepad_ja_selecionado <- 0
+
+                                                escreval("Venda registrada com sucesso!")
+                                                escreval("Pressione qualquer tecla para voltar ao menu inicial")
+                                                leia(tecla)
+                                                limpatela
+                                                variavel_temp_loop_tosemideiamaisdevariavel <- 1 
+                                                c <- 0          
+
+                                            senao
+                                                se (tecla = "N") entao
+                                                    escreval("Meio de pagamento não confirmado.")
+                                                    escreval("Pressione qualquer tecla para voltar ao menu de pagamento.")
+                                                    leia(tecla)
+
+                                                    senao 
+                                                        escreval("Opção inválida. Aperte qualquer tecla para tentar novamente.")
+                                                        leia(tecla)    
+
+                                                fimse
+                                        fimse
+
+                                    fimse                            
+                                caso 0
+                                    variavel_temp_loop_tosemideiamaisdevariavel <- 0
+
+                                outrocaso
+                                    escreval("Opção inválida. Aperte qualquer tecla para tentar novamente.")
+                                    leia(tecla)
+                            
+                            fimescolha    
+                        fimenquanto
                     senao
                         se (tecla = "N") entao
                             c <- 7
