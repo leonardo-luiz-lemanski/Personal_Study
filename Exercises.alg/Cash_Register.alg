@@ -268,7 +268,7 @@ inicio
 
                                     fimse                            
                                 caso 0
-                                    variavel_temp_loop_tosemideiamaisdevariavel <- 0
+                                    variavel_temp_loop_tosemideiamaisdevariavel <- 1
 
                                 outrocaso
                                     escreval("Opção inválida. Aperte qualquer tecla para tentar novamente.")
